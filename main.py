@@ -29,7 +29,7 @@ if os.path.exists("config.pickle"):
         ID = pickle.load(p)
         EMAIL = pickle.load(p)
         PASSW = pickle.load(p)
-else
+else:
     ID = input("ID:\n")
     EMAIL = input("\nEmail:\n")
     PASSW = input("\nPassword:\n")
@@ -42,7 +42,12 @@ else
 s = requests.session()
 r = s.get("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do")
 r = s.post("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do",
-           {"wk_action": "a_getchecknum", "wk_token": wk("token", r.text), "wk_authnumber": ID, "wk_email": EMAIL})
+           {"wk_action": "a_getchecknum", "wk_token": wk("token", r.text), "wk_authnumber": ID, "wk_email": EMAIL + "qq"})
+if r.json()['res']['error'] == 1:
+    print("APCS log-in failed.\n\tPlease check your ID and email.\n\tFor more detail, visit https://github.com/nevikw39/APCS_grade")
+    if os.path.exists("config.pickle"):
+        os.remove("config.pickle")
+    exit(1)
 
 # Second, log in to our gmail and wait for the check number.
 imap = imaplib.IMAP4_SSL("imap.gmail.com")
