@@ -1,8 +1,8 @@
 import email
 import imaplib
+import os
 import pickle
 import time
-import os
 
 import requests
 from bs4 import BeautifulSoup as bs
