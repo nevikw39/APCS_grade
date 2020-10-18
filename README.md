@@ -41,3 +41,9 @@ python3 main.py
 ### IMAP log-in failed
 
 可能是你 *gmail* 帳號或密碼有誤，或者尚未開啟[__「低安全性應用程式存取權」__](https://myaccount.google.com/lesssecureapps)。
+
+## Features
+
+你懂的，像是先跑過一次記住帳號密碼後，用 `crontab` 讓他準時十點執行。
+
+未來再搭個 *Telegram* bot 之類ㄉ＞＜
