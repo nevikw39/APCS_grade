@@ -20,7 +20,13 @@
 
 另外，必須打開 [__「低安全性應用程式存取權」__](https://myaccount.google.com/lesssecureapps) 方能使爬蟲得以藉由 *IMAP* 讀取驗證信。
 
+假如您很在乎資安且已開啟 __二步驟驗證__ ，則可以使用[__「應用程式密碼」__](https://support.google.com/accounts/answer/185833)。
+
 ## Usage
+
+### main.py
+
+送出表單、讀取驗證碼、得到成績，輸出在 `stdin` 並保存。
 
 ```bash
 python3 main.py
@@ -31,6 +37,16 @@ python3 main.py
 您的所有個資將以 `pickle`（*Python* 版 `json`??）儲存在本機。
 
 執行完畢後將結果輸出在 console 並儲存至 `grade.pickle`，俾後續操作。
+
+### send.py
+
+將成績傳送至 _Telegram_ 帳號。
+
+```bash
+python3 send.py
+```
+
+建立一個 _Telegram_ bot，取得其 `token` 及自己的 `chat_id`。第一次執行時輸入之。
 
 ## Exception
 
