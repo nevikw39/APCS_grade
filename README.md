@@ -10,6 +10,8 @@
 
 每一次ＡＰＣＳ考完都要 15 天才可以查成績，到底是為什麼喇欸。這 15 天說長不長說短不短，卻總是令人煎熬難耐。每次查成績那天的早上十點，你是否也是懷抱著既期待又害怕的心情立刻打開手機狂刷？？這樣實在太麻煩惹，對吧？？
 
+此爬蟲幫助您一鍵取得ＡＰＣＳ成績並申請寄送ＰＤＦ至信箱，同時提供 _Telegram_ bot 通知的解決方案。
+
 ## Requirements
 
 - Python 3
@@ -26,17 +28,20 @@
 
 ### main.py
 
-送出表單、讀取驗證碼、得到成績，輸出在 `stdin` 並保存。
+送出表單、讀取驗證碼、得到成績，輸出並保存。
 
 ```bash
+# Default, print grade and save as pickle, and you can use it by other Python scripts.
 python3 main.py
+# Save grade as both pickle and json so that you could use it for other purpose.
+python3 main.py > grade.json
 ```
 
 第一次使用時需輸入 `ID` 身分證字號、`Email` 註冊ＡＰＣＳ的 *Email*、`Password` 該 *Email* 的密碼。
 
-您的所有個資將以 `pickle`（*Python* 版 `json`??）儲存在本機。
+您的所有個資將以 __pickle__（*Python* 版 __json__??）儲存在本機。
 
-執行完畢後將結果輸出在 console 並儲存至 `grade.pickle`，俾後續操作。
+執行完畢後將結果以 __JSON__ 格式輸出在 stdin 並儲存至 `grade.pickle`，俾後續操作。
 
 ### send.py
 
@@ -58,8 +63,10 @@ python3 send.py
 
 可能是你 *gmail* 帳號或密碼有誤，或者尚未開啟[__「低安全性應用程式存取權」__](https://myaccount.google.com/lesssecureapps)。
 
+### APCS verification failed
+
+可能是你 *gmail* 信箱最上方的信恰好是上次手動查詢的驗證信，請確保已經刪除最上方的驗證信。
+
 ## Features
 
 你懂的，像是先跑過一次記住帳號密碼後，用 `crontab` 讓他準時十點執行。
-
-未來再搭個 *Telegram* bot 之類ㄉ＞＜
