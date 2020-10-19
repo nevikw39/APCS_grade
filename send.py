@@ -22,14 +22,5 @@ else:
     with open("grade.pickle", 'rb') as p:
         grade = pickle.load(p)
 
-for i in grade:
-    del i['email_']
-    del i['level1_str_']
-    del i['level2_str_']
-    del i['score1_str_']
-    del i['score2_str_']
-    del i['t_key_']
-    del i['name_']
-
 requests.get(
     f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chatid}&text={pprint.pformat(grade)}")
