@@ -3,7 +3,7 @@ import getpass
 import imaplib
 import os
 import pickle
-import pprint
+import json
 import sys
 import time
 
@@ -48,7 +48,8 @@ else:
 s = requests.session()
 r = s.get("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do")
 h = bs(r.text, 'html.parser')
-r = s.post("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do",{"wk_action": "a_getchecknum", "wk_token": wk("token", h), "wk_authnumber": ID, "wk_email": EMAIL}).json()['res']
+r = s.post("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do",
+           {"wk_action": "a_getchecknum", "wk_token": wk("token", h), "wk_authnumber": ID, "wk_email": EMAIL}).json()['res']
 if r['error']:
     print("APCS log-in failed.\n\tPlease check your ID and email.\n\tFor more detail, visit https://github.com/nevikw39/APCS_grade", file=sys.stderr)
     if os.path.exists("config.pickle"):
@@ -72,7 +73,8 @@ while "【大學程式設計先修檢測】驗證碼:" not in subject:
     time.sleep(1)  # ``Patient you must have'' by Yoda
 num = subject[-5:]
 _, idx = imap.select("INBOX")
-imap.store(idx[0].decode(), '+FLAGS', '\\Deleted') # Delete the verifying email.
+# Delete the verifying email.
+imap.store(idx[0].decode(), '+FLAGS', '\\Deleted')
 imap.expunge()
 imap.close()
 imap.logout()
@@ -81,7 +83,8 @@ print(f"\n\tx={x}", file=sys.stderr)
 # Finally, we have the check number and we can go back to the form
 r = s.get("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do")
 h = bs(r.text, 'html.parser')
-r = s.post("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do", {"wk_action": "a_validateCheckNum", "wk_token": wk("token", h), "wk_authnumber": ID, "wk_email": EMAIL, "wk_testList": wk("testList", h), "wk_checknum": num}).json()['res']
+r = s.post("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do", {"wk_action": "a_validateCheckNum", "wk_token": wk(
+    "token", h), "wk_authnumber": ID, "wk_email": EMAIL, "wk_testList": wk("testList", h), "wk_checknum": num}).json()['res']
 if r['error']:
     print("APCS verification failed.\n\tPlease assure there's no other APCS verification email on the top of your inbox.\n\tFor more detail, visit https://github.com/nevikw39/APCS_grade", file=sys.stderr)
     exit(1)
@@ -95,7 +98,7 @@ for i in grade:
     del i['score2_str_']
     del i['t_key_']
     del i['name_']
-pprint.pprint(grade)
+print(json.dumps(grade, indent=4))
 with open("grade.pickle", 'wb') as p:
     pickle.dump(grade, p)
     pickle.dump(x, p)
@@ -103,7 +106,8 @@ with open("grade.pickle", 'wb') as p:
 # Apply for PDF
 r = s.get("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do")
 h = bs(r.text, 'html.parser')
-r = s.post("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do", {"wk_action": "a_applygrade_pdf", "wk_token": wk("token", h), "wk_authnumber": ID, "wk_email": EMAIL, "wk_checkbox_applygrade": '', "wk_office": '', "wk_office_mail": '', "wk_key_str": key}).json()['res']
+r = s.post("https://webapi.apcs.csie.ntnu.edu.tw/APCS/Applygrade.do", {"wk_action": "a_applygrade_pdf", "wk_token": wk(
+    "token", h), "wk_authnumber": ID, "wk_email": EMAIL, "wk_checkbox_applygrade": '', "wk_office": '', "wk_office_mail": '', "wk_key_str": key}).json()['res']
 if r['error']:
     print("APCS failed.\n\tPlease.\n\tFor more detail, visit https://github.com/nevikw39/APCS_grade", file=sys.stderr)
     exit(1)
