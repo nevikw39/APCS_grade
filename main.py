@@ -98,7 +98,7 @@ for i in grade:
     del i['score2_str_']
     del i['t_key_']
     del i['name_']
-print(json.dumps(grade, indent=4))
+print(json.dumps(grade, ensure_ascii=False, indent=4))
 with open("grade.pickle", 'wb') as p:
     pickle.dump(grade, p)
     pickle.dump(x, p)
